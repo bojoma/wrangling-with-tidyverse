@@ -13,7 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 All the data (.xlsx and .csv) are located in the Google Drive folder I shared.  In this lab you will begin with importing some National Coral Reef Monitoring data sets and then running some general geoprocessing tools. 
 
-1. Begin a new project in ArcGIS using the Map template.  This will set you up with a base map layer  and a geodatabase.
+1. Begin a new project in ArcGIS using the Map template.  This will set you up with a base map layer and a geodatabase.
 
 2. Load the caribbean_shoreline shapefile from the geodatabase of course materials.  
 

@@ -41,5 +41,7 @@ All the following question use the sttst_all_sites.xlsx file in the /data direct
 
 11. What is the eastern most site sample in the "AGRF" habitat in 2004?
 
+12. Of the total number of samples, what percentage was surveyed on patch reef ("PTRF")?
+
 
 
