@@ -16,32 +16,123 @@ All the following question use the sttst_all_sites.xlsx file in the /data direct
 
 1. Import sttstj_all_sites and inspect the data set.  What is the data structure and the data type of each field?
 
-2. How many samples are in the data set?         
+
+```{r}
+library(tidyverse)
+library(readxl)
+d <- read_xlsx("data/sttstj_all_sites.xlsx", sheet="locations")
+class(d)
+glimpse(d)
+```
+
+tibble
+Columns: 5
+$ yr_site <chr> "2001_241", "2001_243", "2001_244", "2001_247", …
+$ year    <dbl> 2001, 2001, 2001, 2001, 2001, 2001, 2001, 2001, …
+$ lat     <dbl> 18.31079, 18.34443, 18.34059, 18.30880, 18.31465…
+$ lon     <dbl> -64.77668, -64.68200, -64.68392, -64.72294, -64.…
+$ hab     <chr> "PVMT", "AGRF", "AGRF", "AGRF", "PVMT", "SCR", "…
+
+
+2. How many samples are in the data set? 
+
+```{r}
+nrow(d)
+```
+2505
 
 3. How many unique habitat types are there?  What are the names of each habitat?
 
+```{r}
+unique(d$hab)
+```
+[1] "PVMT" "AGRF" "SCR"  "PTRF" "BDRK" "HARD"
+6
+
 4. How many sites are there in the "PVMT" habitat type?
+```{r}
+d |> filter(hab == "PVMT")
+```
+571
+
 
 5. How many sites are there in the "PVMT" or "AGRF" habitat types?
+```{r}
+d |> filter(hab=="PVMT" | hab=="AGRF")
+```
+1538
 
 6. How many sites are there in all the habitat types EXCEPT "PVMT"?
+d |> filter(hab!="PVMT")
+1934
 
 7. Show the first 5 records (rows) of...
     - all sites sampled in "AGRF" or "SCR"
     - only show the "yr_site" and "hab" columns
+
+d |> 
+filter(hab=="AGRF" | hab=="SCR") |> 
+head()
+# A tibble: 6 × 5
+  yr_site   year   lat   lon hab  
+  <chr>    <dbl> <dbl> <dbl> <chr>
+1 2001_243  2001  18.3 -64.7 AGRF 
+2 2001_244  2001  18.3 -64.7 AGRF 
+3 2001_247  2001  18.3 -64.7 AGRF 
+4 2001_249  2001  18.3 -64.7 SCR  
+5 2001_256  2001  18.3 -64.7 AGRF 
+6 2001_260  2001  18.3 -64.7 AGRF 
+
+d |> 
+filter(hab=="AGRF" | hab=="SCR") |> 
+select(yr_site,hab) |> 
+head()
+# A tibble: 6 × 2
+  yr_site  hab  
+  <chr>    <chr>
+1 2001_243 AGRF 
+2 2001_244 AGRF 
+3 2001_247 AGRF 
+4 2001_249 SCR  
+5 2001_256 AGRF 
+6 2001_260 AGRF 
+
     
 <!-- extra line break -->
 <br>
 
 8. What is the northern most site sampled in the "BDRK" habitat?
 
+d |> 
+filter(hab=="BDRK") |> 
+slice_max(order_by=lat) |> 
+pull(yr_site)
+[1] "2019_5450"
+
 9. What is the western most site sampled in either "AGRF" or "PTRF" habitat?
+
+d |> 
+filter(hab=="AGRF"|hab=="PTRF") |> 
+slice_min(order_by=lon) |> 
+pull(yr_site)
+[1] "2015_9758"
 
 10. How many years were surveyed in the data set?
 
+length(unique(d$year))
+16
+
 11. What is the eastern most site sample in the "AGRF" habitat in 2004?
 
+d |> 
+filter(hab=="AGRF" & year==2004) |> 
+slice_max(lon) |> 
+pull(yr_site)
+[1] "2004_1821"
+
 12. Of the total number of samples, what percentage was surveyed on patch reef ("PTRF")?
+mean(d$hab=="PTRF")*100
+[1] 12.77445
 
 
 
